@@ -10,7 +10,7 @@ const create = async (req,res) => {
             success: true,
             err: {},
             message: 'Successfully created the airport'
-        })
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -18,7 +18,7 @@ const create = async (req,res) => {
             success: false,
             err: error,
             message: 'Cannot create a new airport'
-        })
+        });
     }
 }
 
@@ -30,7 +30,7 @@ const destroy = async (req,res) => {
             success: true,
             err: {},
             message: 'Successfully deleted an airport'
-        })
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -38,7 +38,7 @@ const destroy = async (req,res) => {
             success: false,
             err: error,
             message: 'Not able to delete the airport'
-        })
+        });
     }
 }
 
@@ -82,9 +82,30 @@ const getAll = async (req,res) => {
     }
 }
 
+const update = async (req,res) => {
+    try {
+        const response = await airportService.update(req.params.id, req.body);
+        return res.status(201).json({
+            data: response,
+            success: true,
+            err: {},
+            message: 'Successfully updated an airport'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            data: {},
+            success: false,
+            err: error,
+            message: 'Not able to update the airport'
+        });
+    }
+}
+
 module.exports = {
     create,
     destroy,
     get,
-    getAll
+    getAll,
+    update
 }
