@@ -12,6 +12,7 @@ router.get('/city/:id',CityController.get);
 router.get('/city',CityController.getAll);
 router.patch('/city/:id',CityController.update);
 router.get('/airports/city/:id',CityController.getAirports);
+router.post('/cities',CityController.createMultiple);
 
 router.post(
     '/flights',
