@@ -1,3 +1,5 @@
+const { StatusCodes } = require('http-status-codes');
+
 const { AirportService } = require('../services/index');
 
 const airportService = new AirportService();
@@ -5,7 +7,7 @@ const airportService = new AirportService();
 const create = async (req,res) => {
     try {
         const response = await airportService.create(req.body);
-        return res.status(201).json({
+        return res.status(StatusCodes.CREATED).json({
             data: response,
             success: true,
             err: {},
@@ -13,11 +15,11 @@ const create = async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(StatusCodes.BAD_REQUEST).json({
             data: {},
             success: false,
-            err: error,
-            message: 'Cannot create a new airport'
+            err: error.explanation,
+            message: error.message
         });
     }
 }
@@ -25,7 +27,7 @@ const create = async (req,res) => {
 const destroy = async (req,res) => {
     try {
         const response = await airportService.destroy(req.params.id);
-        return res.status(201).json({
+        return res.status(StatusCodes.OK).json({
             data: response,
             success: true,
             err: {},
@@ -33,11 +35,11 @@ const destroy = async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(StatusCodes.BAD_REQUEST).json({
             data: {},
             success: false,
-            err: error,
-            message: 'Not able to delete the airport'
+            err: error.explanation,
+            message: error.message
         });
     }
 }
@@ -45,7 +47,7 @@ const destroy = async (req,res) => {
 const get = async (req,res) => {
     try {
         const response = await airportService.get(req.params.id);
-        return res.status(201).json({
+        return res.status(StatusCodes.OK).json({
             data: response,
             success: true,
             err: {},
@@ -53,11 +55,11 @@ const get = async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(StatusCodes.BAD_REQUEST).json({
             data: {},
             success: false,
-            err: error,
-            message: 'Not able to fetch an airport'
+            err: error.explanation,
+            message: error.message
         });
     }
 }
@@ -65,7 +67,7 @@ const get = async (req,res) => {
 const getAll = async (req,res) => {
     try {
         const response = await airportService.getAll();
-        return res.status(201).json({
+        return res.status(StatusCodes.OK).json({
             data: response,
             success: true,
             err: {},
@@ -73,11 +75,11 @@ const getAll = async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(StatusCodes.BAD_REQUEST).json({
             data: {},
             success: false,
-            err: error,
-            message: 'Not able to fetch an airport'
+            err: error.explanation,
+            message: error.message
         });
     }
 }
@@ -85,7 +87,7 @@ const getAll = async (req,res) => {
 const update = async (req,res) => {
     try {
         const response = await airportService.update(req.params.id, req.body);
-        return res.status(201).json({
+        return res.status(StatusCodes.OK).json({
             data: response,
             success: true,
             err: {},
@@ -93,11 +95,11 @@ const update = async (req,res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(StatusCodes.EXPECTATION_FAILED).json({
             data: {},
             success: false,
-            err: error,
-            message: 'Not able to update the airport'
+            err: error.explanation,
+            message: error.message
         });
     }
 }

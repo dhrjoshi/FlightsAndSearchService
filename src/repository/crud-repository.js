@@ -1,3 +1,6 @@
+const { StatusCodes } = require('http-status-codes');
+const { ValidationError, AppError } = require('../utils/errors/index');
+
 class CrudRepository {
     constructor(model){
         this.model = model;
@@ -8,8 +11,15 @@ class CrudRepository {
             const result = await this.model.create(data);
             return result;
         } catch (error) {
-            console.log("Something went wrong in crud repo");
-            throw error;
+            if(error.name == 'SequelizeValidationError') {
+                throw new ValidationError(error);
+            }
+            throw new AppError(
+                'RepositoryError',
+                'Unable to create',
+                'There was some issue creating the required field, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -22,8 +32,12 @@ class CrudRepository {
             });
             return true;
         } catch (error) {
-            console.log("Something went wrong in crud repo");
-            throw error;
+            throw new AppError(
+                'RepositoryError',
+                'Unable to delete',
+                'There was some issue deleting the required field, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -32,8 +46,12 @@ class CrudRepository {
             const result = await this.model.findByPk(modelId);
             return result;
         } catch (error) {
-            console.log("Something went wrong in crud repo");
-            throw error;
+            throw new AppError(
+                'RepositoryError',
+                'Unable to fetch',
+                'There was some issue fetching the required field, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
         }
     } 
 
@@ -42,8 +60,12 @@ class CrudRepository {
             const result = await this.model.findAll();
             return result;
         } catch (error) {
-            console.log("Something went wrong in crud repo");
-            throw error;
+            throw new AppError(
+                'RepositoryError',
+                'Unable to fetch ',
+                'There was some issue fetching the required field, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -56,8 +78,12 @@ class CrudRepository {
             });
             return result;
         } catch (error) {
-            console.log("Something went wrong in crud repo");
-            throw error;
+            throw new AppError(
+                'RepositoryError',
+                'Unable to update',
+                'There was some issue updating the required field, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR
+            );
         }
     }
 }
